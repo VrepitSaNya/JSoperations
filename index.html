@@ -3,113 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>String Operations</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
         }
-        input[type="text"] {
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 10px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
-        .button-container {
+        .button-group {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            gap: 10px;
         }
-        button {
+        .button-group button {
             padding: 10px 20px;
-            border: none;
-            color: white;
             font-size: 16px;
-            border-radius: 20px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 30px;
             cursor: pointer;
+            width: 48%;
         }
-        .reset-button {
+        .button-group button:hover {
             background-color: #0056b3;
         }
-        .calculate-button {
-            background-color: #0056b3;
-        }
-        #result {
+        .result {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>String Operations</h1>
-    <div>
-        <input type="text" id="string1" placeholder="Enter string 1">
-        <br>
-        <input type="text" id="string2" placeholder="Enter string 2">
-        <br>
-        <input type="text" id="string3" placeholder="Enter string 3">
-        <br>
+
+<div class="container">
+    <div class="input-group">
+        <label for="string1">Enter String 1</label>
+        <input type="text" id="string1" placeholder="Enter text for String 1">
     </div>
-    <div class="button-container">
-        <button class="reset-button" onclick="resetFields()">Reset</button>
-        <button class="calculate-button" onclick="performOperation()">Calculate</button>
+    <div class="input-group">
+        <label for="string2">Enter String 2</label>
+        <input type="text" id="string2" placeholder="Enter text for String 2">
     </div>
-    <div id="result"></div>
-    <script>
-        function resetFields() {
-            document.getElementById("string1").value = "";
-            document.getElementById("string2").value = "";
-            document.getElementById("string3").value = "";
-            document.getElementById("result").innerHTML = "";
+    <div class="input-group">
+        <label for="string3">Enter String 3</label>
+        <input type="text" id="string3" placeholder="Enter text for String 3">
+    </div>
+
+    <div class="button-group">
+        <button id="calculateBtn">Calculate</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    let clickCount = 0;
+
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+        clickCount++;
+
+        const string1 = document.getElementById('string1').value;
+        const string2 = document.getElementById('string2').value;
+        const string3 = document.getElementById('string3').value;
+
+        if (clickCount === 1) {
+            document.getElementById('string1').value = string1.toUpperCase();
+            document.getElementById('string2').value = string2.toUpperCase();
+            document.getElementById('string3').value = string3.toUpperCase();
+            document.getElementById('result').textContent = "Strings converted to Uppercase!";
+        } 
+        else if (clickCount === 2) {
+            document.getElementById('string1').value = string1.toLowerCase();
+            document.getElementById('string2').value = string2.toLowerCase();
+            document.getElementById('string3').value = string3.toLowerCase();
+            document.getElementById('result').textContent = "Strings converted to Lowercase!";
         }
-
-        function performOperation() {
-            const string1 = document.getElementById("string1").value;
-            const string2 = document.getElementById("string2").value;
-            const string3 = document.getElementById("string3").value;
-
-            if (!string1 || !string2 || !string3) {
-                alert("Please fill all three strings!");
-                return;
-            }
-
-            const operations = [concatenateStrings, findCommonChars, reverseStrings];
-            const randomOperation = operations[Math.floor(Math.random() * operations.length)];
-            const result = randomOperation(string1, string2, string3);
-
-            document.getElementById("result").innerHTML = `
-                <h3>Operation Result:</h3>
-                <p><strong>Operation Type:</strong> ${result.operation}</p>
-                <p><strong>String 1:</strong> ${string1}</p>
-                <p><strong>String 2:</strong> ${string2}</p>
-                <p><strong>String 3:</strong> ${string3}</p>
-                <p><strong>Result:</strong> ${result.result}</p>
-            `;
-        }
-
-        function concatenateStrings(str1, str2, str3) {
-            return {
-                operation: "Concatenation",
-                result: str1 + str2 + str3
-            };
-        }
-
-        function findCommonChars(str1, str2, str3) {
-            const common = [...str1].filter(
-                char => str2.includes(char) && str3.includes(char)
+        else if (clickCount === 3) {
+            const stringsArray = [string1, string2, string3];
+            const longestWord = stringsArray.reduce((longest, current) => 
+                current.length > longest.length ? current : longest
             );
-            return {
-                operation: "Find Common Characters",
-                result: common.join(", ") || "No common characters"
-            };
+            document.getElementById('result').textContent = `Longest Word: ${longestWord}`;
+            clickCount = 0;
         }
+    });
 
-        function reverseStrings(str1, str2, str3) {
-            return {
-                operation: "Reverse Strings",
-                result: `${str1.split("").reverse().join("")} | ${str2.split("").reverse().join("")} | ${str3.split("").reverse().join("")}`
-            };
-        }
-    </script>
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        document.getElementById('string1').value = '';
+        document.getElementById('string2').value = '';
+        document.getElementById('string3').value = '';
+        document.getElementById('result').textContent = '';
+        clickCount = 0;
+    });
+</script>
+
 </body>
 </html>
