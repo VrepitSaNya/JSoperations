@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .reset-button {
+            background-color: #0056b3;
+        }
+        .calculate-button {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>String Operations</h1>
+    <div>
+        <input type="text" id="string1" placeholder="Enter string 1">
+        <br>
+        <input type="text" id="string2" placeholder="Enter string 2">
+        <br>
+        <input type="text" id="string3" placeholder="Enter string 3">
+        <br>
+    </div>
+    <div class="button-container">
+        <button class="reset-button" onclick="resetFields()">Reset</button>
+        <button class="calculate-button" onclick="performOperation()">Calculate</button>
+    </div>
+    <div id="result"></div>
+    <script>
+        function resetFields() {
+            document.getElementById("string1").value = "";
+            document.getElementById("string2").value = "";
+            document.getElementById("string3").value = "";
+            document.getElementById("result").innerHTML = "";
+        }
+
+        function performOperation() {
+            const string1 = document.getElementById("string1").value;
+            const string2 = document.getElementById("string2").value;
+            const string3 = document.getElementById("string3").value;
+
+            if (!string1 || !string2 || !string3) {
+                alert("Please fill all three strings!");
+                return;
+            }
+
+            const operations = [concatenateStrings, findCommonChars, reverseStrings];
+            const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+            const result = randomOperation(string1, string2, string3);
+
+            document.getElementById("result").innerHTML = `
+                <h3>Operation Result:</h3>
+                <p><strong>Operation Type:</strong> ${result.operation}</p>
+                <p><strong>String 1:</strong> ${string1}</p>
+                <p><strong>String 2:</strong> ${string2}</p>
+                <p><strong>String 3:</strong> ${string3}</p>
+                <p><strong>Result:</strong> ${result.result}</p>
+            `;
+        }
+
+        function concatenateStrings(str1, str2, str3) {
+            return {
+                operation: "Concatenation",
+                result: str1 + str2 + str3
+            };
+        }
+
+        function findCommonChars(str1, str2, str3) {
+            const common = [...str1].filter(
+                char => str2.includes(char) && str3.includes(char)
+            );
+            return {
+                operation: "Find Common Characters",
+                result: common.join(", ") || "No common characters"
+            };
+        }
+
+        function reverseStrings(str1, str2, str3) {
+            return {
+                operation: "Reverse Strings",
+                result: `${str1.split("").reverse().join("")} | ${str2.split("").reverse().join("")} | ${str3.split("").reverse().join("")}`
+            };
+        }
+    </script>
+</body>
+</html>
